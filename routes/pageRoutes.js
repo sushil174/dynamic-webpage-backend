@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
         const pages = await Page.find();
         res.status(200).json(pages)
     } catch(error) {
-        res.status(500).json({message: 'Failed to fetch blogs', error})
+        res.status(500).json({message: 'Failed to fetch pages', error})
     }
 })
 
