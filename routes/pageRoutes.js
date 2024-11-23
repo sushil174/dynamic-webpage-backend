@@ -2,6 +2,7 @@ const express = require('express')
 const Page = require('../models/Page')
 const router = express.Router()
 
+
 router.get('/', async (req, res) => {
     try {
         const pages = await Page.find();
@@ -21,6 +22,28 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+// router.post('/',upload.single('image'), async(req, res) => {
+//     try {
+//         const pageData = {
+//             title:req.body.title,
+//             content:req.body.content,
+//             published:req.body.published || false,
+//             imageTitle:req.body.imageTitle
+//         };
+
+//         if(req.file) {
+//             pageData.image = req.file.buffer
+//             pageData.imageType = req.file.mimetype
+//         }
+
+//         const newPage = new Page(pageData)
+//         const savedPage = await newPage.save()
+//         res.status(201).json(savedPage)
+//     }catch(error) {
+//         res.status(400).json({message:'failed to create page', error})
+//     }
+// })
+
 router.post('/', async(req, res) => {
     try{
         const newPage = new Page(req.body)
@@ -36,6 +59,9 @@ router.put('/:id', async (req, res) => {
         const updatePage = await Page.findByIdAndUpdate(req.params.id, req.body, {new: true})
         if(!updatePage) return res.status(404).json({message: "page not found"})
         res.status(200).json(updatePage)
+        console.log('Request Body:', req.body);
+        console.log('Uploaded File:', req.file);
+
     }catch(error) {
         res.status(200).json({message: 'Failed to update page', error})
     }
